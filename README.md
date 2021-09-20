@@ -1,4 +1,4 @@
-test# AccountBalance
+AccountBalance
 
 Steps on how to run the project
 1. Run update-database on package manager console.
