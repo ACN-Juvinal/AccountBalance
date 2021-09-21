@@ -1,10 +1,14 @@
 using AccountBalance.Features;
+using AccountBalance.Tests.Mocks;
+using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
+using static AccountBalance.Features.GetBalanceandPayments;
 
 namespace AccountBalance.Tests
 {
@@ -14,17 +18,13 @@ namespace AccountBalance.Tests
         private string _token;
 
         [Fact]
-        public async Task Test_GetUserBalanceandPayments()
+        public void Test_GetUserBalanceandPayments()
         {
-            // Act
-            var response = await httpClient.GetAsync("api/getbalanceandpayments");
+            var UserId = "6f41830b-2938-4d61-b3fd-35c5dac80f77";
+            var balance = MockPaymentsRepository.Balances.Where(s => s.UserId == UserId).Sum(s => s.Amount);
+            var payments = MockPaymentsRepository.Payments.Where(s => s.UserId == UserId).OrderByDescending(s => s.Date);
 
-            // Assert
-            response.EnsureSuccessStatusCode();
-            var stringResponse = await response.Content.ReadAsStringAsync();
-            var userBalance = JsonSerializer.Deserialize<GetBalanceandPayments.Response>(stringResponse, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
-
-            //Assert.Equal(3, userBalance.Payments);
+            Assert.Equal(2, payments.Count());
         }
     }
 }

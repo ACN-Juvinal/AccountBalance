@@ -55,21 +55,24 @@ namespace AccountBalance.Features
                 {
                     var balance = _db.UserBalances.Where(s => s.UserId == request.userId).Sum(s => s.Amount);
                     var payments = _db.Payments.Where(s => s.UserId == request.userId).OrderByDescending(s => s.Date);
-                    return new Response()
-                    {
-                        Balance = balance,
-                        Payments = payments
-                    };
+
+                    return new Response(balance, payments);
                 }
 
                 return null;
             }
         }
 
-        public record Response
+        public record Response 
         {
             public decimal Balance { get; init; }
             public IEnumerable<Payment> Payments { get; init; }
+
+            public Response(decimal Balance, IEnumerable<Payment> Payments)
+            {
+                this.Balance = Balance;
+                this.Payments = Payments;
+            }
         }
 
     }
