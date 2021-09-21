@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace AccountBalance.Features
 {
+    [Authorize]
     [ApiController]
     public class GetBalanceAndPaymentsController : ControllerBase
     {
@@ -23,7 +24,7 @@ namespace AccountBalance.Features
             _mediator = mediator;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("/api/getbalanceandpayments")]
         public async Task<IActionResult> GetBalanceAndPayments()
         {
@@ -50,11 +51,11 @@ namespace AccountBalance.Features
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                if (_db.UserBalances.Any(s => s.User.Id == request.userId))
+                if (_db.UserBalances.Any(s => s.UserId == request.userId))
                 {
-                    var balance = _db.UserBalances.Where(s => s.User.Id == request.userId).Sum(s => s.Amount);
-                    var payments = _db.Payments.Where(s => s.User.Id == request.userId).OrderByDescending(s => s.Date);
-                    var response = new Response()
+                    var balance = _db.UserBalances.Where(s => s.UserId == request.userId).Sum(s => s.Amount);
+                    var payments = _db.Payments.Where(s => s.UserId == request.userId).OrderByDescending(s => s.Date);
+                    return new Response()
                     {
                         Balance = balance,
                         Payments = payments

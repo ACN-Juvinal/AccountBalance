@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AccountBalance.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20210920081909_Initial")]
+    [Migration("20210920140715_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,11 +41,9 @@ namespace AccountBalance.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Payments");
 
@@ -54,16 +52,18 @@ namespace AccountBalance.Migrations
                         {
                             Id = 1,
                             Amount = 10m,
-                            Date = new DateTimeOffset(new DateTime(2021, 9, 15, 16, 19, 7, 923, DateTimeKind.Unspecified).AddTicks(5244), new TimeSpan(0, 8, 0, 0, 0)),
+                            Date = new DateTimeOffset(new DateTime(2021, 9, 15, 22, 7, 14, 555, DateTimeKind.Unspecified).AddTicks(3987), new TimeSpan(0, 8, 0, 0, 0)),
                             Reason = "Paid through credit card",
-                            Status = "Closed"
+                            Status = "Closed",
+                            UserId = "6f41830b-2938-4d61-b3fd-35c5dac80f77"
                         },
                         new
                         {
                             Id = 2,
                             Amount = 10m,
-                            Date = new DateTimeOffset(new DateTime(2021, 9, 20, 16, 19, 7, 923, DateTimeKind.Unspecified).AddTicks(7189), new TimeSpan(0, 8, 0, 0, 0)),
-                            Status = "Open"
+                            Date = new DateTimeOffset(new DateTime(2021, 9, 20, 22, 7, 14, 555, DateTimeKind.Unspecified).AddTicks(4665), new TimeSpan(0, 8, 0, 0, 0)),
+                            Status = "Open",
+                            UserId = "6f41830b-2938-4d61-b3fd-35c5dac80f77"
                         });
                 });
 
@@ -84,11 +84,9 @@ namespace AccountBalance.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("UserBalances");
 
@@ -97,8 +95,9 @@ namespace AccountBalance.Migrations
                         {
                             Id = 1,
                             Amount = 500m,
-                            DateCreated = new DateTimeOffset(new DateTime(2021, 9, 13, 16, 19, 7, 913, DateTimeKind.Unspecified).AddTicks(8596), new TimeSpan(0, 8, 0, 0, 0)),
-                            Status = "Active"
+                            DateCreated = new DateTimeOffset(new DateTime(2021, 9, 13, 22, 7, 14, 550, DateTimeKind.Unspecified).AddTicks(8419), new TimeSpan(0, 8, 0, 0, 0)),
+                            Status = "Active",
+                            UserId = "6f41830b-2938-4d61-b3fd-35c5dac80f77"
                         });
                 });
 
@@ -220,17 +219,17 @@ namespace AccountBalance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
+                            Id = "6f41830b-2938-4d61-b3fd-35c5dac80f77",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1ad6e430-32e7-4a27-aed9-6f7d142c861e",
+                            ConcurrencyStamp = "8cb056f2-9942-421b-9af1-ffd3a70a82d9",
                             Email = "test@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "test@gmail.com",
                             NormalizedUserName = "testuser",
-                            PasswordHash = "AQAAAAEAACcQAAAAENRa04VdrBzEiugwwlA56HUPG4JuqzCd01LWih4GAKs31xgQJlCJjhJm432NdXApzw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMkmBw0P35G0eOfg0kGGcKxRZHIYkcPj/Fo3TCa8s/Sj38DeAmLdJ07TD5EuhYS4vA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "",
+                            SecurityStamp = "FBLTOOQQ7GUHQCJDVU5EZUINTZYAYHUU",
                             TwoFactorEnabled = false,
                             UserName = "testuser"
                         });
@@ -318,24 +317,6 @@ namespace AccountBalance.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("AccountBalance.Entities.Payment", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("AccountBalance.Entities.UserBalance", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

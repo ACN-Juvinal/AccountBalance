@@ -10,7 +10,7 @@ namespace AccountBalance.Entities
     public class UserBalance
     {
         public int Id { get; set; }
-        public IdentityUser User { get; set; }
+        public string UserId { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
         public DateTimeOffset DateCreated { get; set; }

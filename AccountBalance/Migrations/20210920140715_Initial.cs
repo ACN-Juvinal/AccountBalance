@@ -47,6 +47,39 @@ namespace AccountBalance.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Date = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserBalances",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DateCreated = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserBalances", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -152,69 +185,24 @@ namespace AccountBalance.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Payments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Date = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Payments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Payments_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserBalances",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DateCreated = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserBalances", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserBalances_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "a18be9c0-aa65-4af8-bd17-00bd9344e575", 0, "1ad6e430-32e7-4a27-aed9-6f7d142c861e", "test@gmail.com", true, false, null, "test@gmail.com", "testuser", "AQAAAAEAACcQAAAAENRa04VdrBzEiugwwlA56HUPG4JuqzCd01LWih4GAKs31xgQJlCJjhJm432NdXApzw==", null, false, "", false, "testuser" });
+                values: new object[] { "6f41830b-2938-4d61-b3fd-35c5dac80f77", 0, "8cb056f2-9942-421b-9af1-ffd3a70a82d9", "test@gmail.com", true, false, null, "test@gmail.com", "testuser", "AQAAAAEAACcQAAAAEMkmBw0P35G0eOfg0kGGcKxRZHIYkcPj/Fo3TCa8s/Sj38DeAmLdJ07TD5EuhYS4vA==", null, false, "FBLTOOQQ7GUHQCJDVU5EZUINTZYAYHUU", false, "testuser" });
 
             migrationBuilder.InsertData(
                 table: "Payments",
                 columns: new[] { "Id", "Amount", "Date", "Reason", "Status", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 10m, new DateTimeOffset(new DateTime(2021, 9, 15, 16, 19, 7, 923, DateTimeKind.Unspecified).AddTicks(5244), new TimeSpan(0, 8, 0, 0, 0)), "Paid through credit card", "Closed", null },
-                    { 2, 10m, new DateTimeOffset(new DateTime(2021, 9, 20, 16, 19, 7, 923, DateTimeKind.Unspecified).AddTicks(7189), new TimeSpan(0, 8, 0, 0, 0)), null, "Open", null }
+                    { 1, 10m, new DateTimeOffset(new DateTime(2021, 9, 15, 22, 7, 14, 555, DateTimeKind.Unspecified).AddTicks(3987), new TimeSpan(0, 8, 0, 0, 0)), "Paid through credit card", "Closed", "6f41830b-2938-4d61-b3fd-35c5dac80f77" },
+                    { 2, 10m, new DateTimeOffset(new DateTime(2021, 9, 20, 22, 7, 14, 555, DateTimeKind.Unspecified).AddTicks(4665), new TimeSpan(0, 8, 0, 0, 0)), null, "Open", "6f41830b-2938-4d61-b3fd-35c5dac80f77" }
                 });
 
             migrationBuilder.InsertData(
                 table: "UserBalances",
                 columns: new[] { "Id", "Amount", "DateCreated", "Status", "UserId" },
-                values: new object[] { 1, 500m, new DateTimeOffset(new DateTime(2021, 9, 13, 16, 19, 7, 913, DateTimeKind.Unspecified).AddTicks(8596), new TimeSpan(0, 8, 0, 0, 0)), "Active", null });
+                values: new object[] { 1, 500m, new DateTimeOffset(new DateTime(2021, 9, 13, 22, 7, 14, 550, DateTimeKind.Unspecified).AddTicks(8419), new TimeSpan(0, 8, 0, 0, 0)), "Active", "6f41830b-2938-4d61-b3fd-35c5dac80f77" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -254,16 +242,6 @@ namespace AccountBalance.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Payments_UserId",
-                table: "Payments",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserBalances_UserId",
-                table: "UserBalances",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

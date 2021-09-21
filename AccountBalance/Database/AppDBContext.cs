@@ -17,23 +17,24 @@ namespace AccountBalance.Database
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            var hasher = new PasswordHasher<IdentityUser>();
-            builder.Entity<IdentityUser>().HasData(
-                new IdentityUser
-                {
-                    Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                    UserName = "testuser",
-                    NormalizedUserName = "testuser",
-                    Email = "test@gmail.com",
-                    NormalizedEmail = "test@gmail.com",
-                    EmailConfirmed = true,
-                    PasswordHash = hasher.HashPassword(null, "SOME_ADMIN_PLAIN_PASSWORD"),
-                    SecurityStamp = string.Empty
-                });
+            var defaultUser = new IdentityUser
+            {
+                Id = "6f41830b-2938-4d61-b3fd-35c5dac80f77",
+                UserName = "testuser",
+                NormalizedUserName = "testuser",
+                Email = "test@gmail.com",
+                NormalizedEmail = "test@gmail.com",
+                EmailConfirmed = true,
+                PasswordHash = "AQAAAAEAACcQAAAAEMkmBw0P35G0eOfg0kGGcKxRZHIYkcPj/Fo3TCa8s/Sj38DeAmLdJ07TD5EuhYS4vA==",
+                SecurityStamp = "FBLTOOQQ7GUHQCJDVU5EZUINTZYAYHUU",
+                ConcurrencyStamp = "8cb056f2-9942-421b-9af1-ffd3a70a82d9"
+            };
+            builder.Entity<IdentityUser>().HasData(defaultUser);
             builder.Entity<UserBalance>().HasData(
                 new UserBalance
                 {
                     Id = 1,
+                    UserId = defaultUser.Id,
                     Amount = 500M,
                     DateCreated = DateTimeOffset.Now.AddDays(-7),
                     Status = "Active"
@@ -43,6 +44,7 @@ namespace AccountBalance.Database
                 new Payment
                 {
                     Id = 1,
+                    UserId = defaultUser.Id,
                     Amount = 10M,
                     Date = DateTimeOffset.Now.AddDays(-5),
                     Status = "Closed",
@@ -51,6 +53,7 @@ namespace AccountBalance.Database
                 new Payment
                 {
                     Id = 2,
+                    UserId = defaultUser.Id,
                     Amount = 10M,
                     Date = DateTimeOffset.Now,
                     Status = "Open"
